@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel
 
 
@@ -12,21 +14,32 @@ class UserCreate(UserBase):
 class User(UserBase):
     id: int
     status: bool
-    created: str
+    created: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Problem(BaseModel):
-    id: int
     category_id: int
     category_detail_id: int
     title: str
     content: str
+    explanation: str
+    subjective_answer: str | None = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+
+
+class Answer(BaseModel):
+    id: int
+    problem_id: int
+    content: str
+    correct: bool
+
+    class Config:
+        from_attributes = True
 
 
 class Category(BaseModel):
@@ -35,7 +48,7 @@ class Category(BaseModel):
     detail: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class CategoryDetail(BaseModel):
@@ -44,4 +57,4 @@ class CategoryDetail(BaseModel):
     detail: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
